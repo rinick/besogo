@@ -347,8 +347,13 @@ besogo.makeBoardDisplay = function(container, editor) {
                     color = (stone === -1) ? "white" : "black"; // White on black
                     if (lastMove && lastMove.x === i && lastMove.y === j) {
                         // Mark last move blue or violet if also a variant
-                        color = checkVariants(variants, current, i, j) ?
-                            besogo.PURP : besogo.BLUE;
+                        if (stone === -1) {
+                            color = checkVariants(variants, current, i, j) ?
+                                besogo.LILAC : besogo.SKY;
+                        } else {
+                            color = checkVariants(variants, current, i, j) ?
+                                besogo.PURP : besogo.BLUE;
+                        }
                     } else if (checkVariants(variants, current, i, j)) {
                         color = besogo.RED; // Natural variant marks are red
                     }
@@ -488,6 +493,7 @@ besogo.makeBoardDisplay = function(container, editor) {
                 }
             }
         } else { // Render hover for other tools by iterating over grid
+            var nextMove = current.nextMove();
             for (i = 1; i <= sizeX; i++) {
                 for (j = 1; j <= sizeY; j++) {
                     element = null;
@@ -497,7 +503,7 @@ besogo.makeBoardDisplay = function(container, editor) {
                     color = (stone === -1) ? "white" : "black"; // White on black
                     switch(tool) {
                         case 'auto':
-                            element = besogo.svgStone(x, y, current.nextMove());
+                            element = besogo.svgStone(x, y, nextMove);
                             break;
                         case 'playB':
                             element = besogo.svgStone(x, y, -1);

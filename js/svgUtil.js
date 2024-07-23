@@ -5,7 +5,9 @@
 besogo.RED  = '#be0119'; // Darker red (marked variant)
 besogo.LRED = '#ff474c'; // Lighter red (auto-marked variant)
 besogo.BLUE = '#0165fc'; // Bright blue (last move)
+besogo.SKY = '#6CAEFC'; // Bright blue (last move)
 besogo.PURP = '#9a0eea'; // Red + blue (variant + last move)
+besogo.LILAC = '#B463EA' // Red + blue (variant + last move)
 besogo.GREY = '#929591'; // Between white and black
 besogo.GOLD = '#dbb40c'; // Tool selection
 besogo.TURQ = '#06c2ac'; // Turqoise (nav selection)
@@ -189,7 +191,7 @@ besogo.svgLabel = function(x, y, color, label) {
             size = 56;
             break;
         case 3:
-            size = 36;
+            size = 40;
             break;
     }
 

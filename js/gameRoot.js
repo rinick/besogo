@@ -18,6 +18,8 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
         node.move = null;
         node.setupStones = [];
         node.markup = [];
+        node.board = parent?.board ? [...parent?.board] : [];
+        node.moves = parent?.moves ? [...parent?.moves] : [];
         node.comment = ''; // Comment on this node
     }
     initNode(root, null); // Initialize root node with null parent
@@ -48,7 +50,7 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
                 overwrite: false // Pass is never an overwrite
             };
             this.lastMove = color; // Store color of last move
-            this.moveNumber++; // Increment move number
+            this.moveNumber = this.parent.moveNumber + 1; // Increment move number
             return true; // Pass move successful
         }
 
@@ -95,8 +97,8 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
         } else { // Capture by white or suicide by black
             this.whiteCaps += Math.abs(captures); // Tally captures for white
         }
-
-        setStone(this, x, y, color); // Place the stone
+        this.moveNumber = this.parent.moveNumber + 1; // Increment move number
+        setStone(this, x, y, color, String(this.moveNumber)); // Place the stone
         for (i = 0; i < pending.length; i++) { // Remove the captures
             setStone(this, pending[i].x, pending[i].y, EMPTY);
         }
@@ -108,7 +110,7 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
             overwrite: overwrite
         };
         this.lastMove = color; // Store color of last move
-        this.moveNumber++; // Increment move number
+
         return true;
     }; // END func root.playMove
 
@@ -162,16 +164,11 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
         var x, y, count = 0;
         if (this.lastMove) { // If a move has been played
             return -this.lastMove; // Then next is opposite of last move
-        } else { // No moves have been played
-            for (x = 1; x <= sizeX; x++) {
-                for (y = 1; y <= sizeY; y++) {
-                    // Counts up difference between black and white set stones
-                    count += this.getStone(x, y);
-                }
-            }
-            // White's turn if strictly more black stones are set
-            return (count < 0) ? WHITE : BLACK;
         }
+        if (this.parent?.lastMove) {
+            return -this.parent.lastMove;
+        }
+        return BLACK;
     };
 
     // Places a setup stone, returns true if successful
@@ -196,21 +193,32 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
         if (x < 1 || y < 1 || x > sizeX || y > sizeY) {
             return false; // Do not allow out of bounds markup
         }
-        if (this.getMarkup(x, y) === mark) { // Quit early if no change to make
+        let p = fromXY(x, y);
+        if (this.markup[p] === mark) { // Quit early if no change to make
             return false;
         }
-        this.markup[ fromXY(x, y) ] = mark;
+        this.markup[p] = mark;
         return true;
     };
 
     // Returns the stone status of the given position
     root.getStone = function(x, y) {
-        return this['board' + x + '-' + y] || EMPTY;
+        var p = fromXY(x, y);
+        return this.board[p] || EMPTY;
+    };
+
+    root.getMoveNumber = function(x, y) {
+        var p = fromXY(x, y);
+        return this.moves[p] || EMPTY;
     };
 
     // Directly sets the stone state for the given game node
-    function setStone(node, x, y, color) {
-        node['board' + x + '-' + y] = color;
+    function setStone(node, x, y, color, moveNumber) {
+        var p = fromXY(x, y);
+        node.board[p] = color;
+        if (moveNumber) {
+            node.moves[p] = moveNumber;
+        }
     }
 
     // Gets the setup stone placed at (x, y), returns false if none
@@ -231,7 +239,8 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
 
     // Gets the markup at (x, y)
     root.getMarkup = function(x, y) {
-        return this.markup[ fromXY(x, y) ] || EMPTY;
+        var p = fromXY(x, y);
+        return this.markup[p] || this.moves[p] || EMPTY;
     };
 
     // Determines the type of this node
@@ -271,7 +280,7 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
 
     // Makes a child node of this node, but does NOT add it to children
     root.makeChild = function() {
-        var child = Object.create(this); // Child inherits properties
+        var child = Object.create(this.moveNumber?this.__proto__:this); // Child inherits properties
         initNode(child, this); // Initialize other properties
 
         return child;
