@@ -205,9 +205,12 @@ besogo.create = function(container, options) {
 
 
     try {
-        var sgf = besogo.parseSgf(window.localStorage['sgf_save']);
-        besogo.loadSgf(sgf, editor);
-        editor.gotoLast();
+        var str = window.localStorage['sgf_save'];
+        if (str) {
+            var sgf = besogo.parseSgf();
+            besogo.loadSgf(sgf, editor);
+            editor.gotoLast();
+        }
     } catch (error) {
         alert('SGF parse error at ' + error.at + ':\n' + error.message);
     }
