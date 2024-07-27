@@ -157,8 +157,8 @@ besogo.makeTreePanel = function(container, editor) {
                 element = besogo.svgEl("g");
                 element.appendChild( besogo.svgStone(svgPos(x), svgPos(y), color) );
                 color = (color === -1) ? "white" : "black";
-                element.appendChild( besogo.svgLabel(svgPos(x), svgPos(y), color,
-                    '' + node.moveNumber) );
+                var label= (node.move.x) ? '' + node.moveNumber : '';
+                element.appendChild( besogo.svgLabel(svgPos(x), svgPos(y), color, label) );
                 break;
             case 'setup': // Setup node
                 element = besogo.svgEl("g");
