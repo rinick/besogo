@@ -190,7 +190,7 @@ besogo.makeTreePanel = function(container, editor) {
             height: 110,
             fill: besogo.TURQ
         });
-        element.onclick = function() {
+        element.onpointerdown = function() {
             editor.setCurrent(node);
         };
 

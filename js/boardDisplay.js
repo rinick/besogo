@@ -251,7 +251,7 @@ besogo.makeBoardDisplay = function(container, editor) {
                 });
 
                 // Add event listeners, using closures to decouple (i, j)
-                element.addEventListener("click", handleClick(i, j));
+                element.addEventListener("pointerdown", handleClick(i, j));
 
                 if (!TOUCH_FLAG) { // Skip hover listeners for touch interfaces
                     element.addEventListener("mouseover", handleOver(i, j));
