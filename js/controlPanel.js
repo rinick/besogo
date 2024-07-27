@@ -46,11 +46,11 @@ besogo.makeControlPanel = function(container, editor) {
         function updateStyleButtons(style) { // Updates the variant style buttons
             if (style % 2) { // Sibling style variants
                 childVariantElement.setAttribute('fill', 'black');
-                siblingVariantElement.setAttribute('fill', besogo.BLUE);
+                siblingVariantElement.setAttribute('fill', besogo.MRED);
                 variantStyleButton.title = 'Variants: child/[sibling]';
             } else { // Child style variants
-                childVariantElement.setAttribute('fill', besogo.BLUE);
-                siblingVariantElement.setAttribute('fill', besogo.RED);
+                childVariantElement.setAttribute('fill', besogo.MRED);
+                siblingVariantElement.setAttribute('fill', besogo.DBLUE);
                 variantStyleButton.title = 'Variants: [child]/sibling';
             }
             if (style >= 2) { // Hide auto-markup for variants
@@ -168,7 +168,7 @@ besogo.makeControlPanel = function(container, editor) {
             cx: 75,
             cy: 75,
             r: 20,
-            fill: besogo.RED,
+            fill: besogo.DBLUE,
             stroke: 'none'
         });
         svg.appendChild(element);
@@ -180,7 +180,7 @@ besogo.makeControlPanel = function(container, editor) {
         container.appendChild(hideVariantButton);
         svg = makeButtonContainer();
         hideVariantButton.appendChild(svg);
-        svg.appendChild(besogo.svgLabel(50, 50, besogo.RED, 'A'));
+        svg.appendChild(besogo.svgLabel(50, 50, besogo.DBLUE, 'A'));
         hideVariantElement = besogo.svgCross(50, 50, 'black');
         svg.appendChild(hideVariantElement);
 

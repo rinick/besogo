@@ -350,13 +350,13 @@ besogo.makeBoardDisplay = function(container, editor) {
                         // Mark last move blue or violet if also a variant
                         if (stone === -1) {
                             color = checkVariants(variants, current, i, j) ?
-                                besogo.LILAC : besogo.SKY;
+                                besogo.LILAC : besogo.LRED;
                         } else {
                             color = checkVariants(variants, current, i, j) ?
-                                besogo.PURP : besogo.BLUE;
+                                besogo.PURP : besogo.MRED;
                         }
                     } else if (checkVariants(variants, current, i, j)) {
-                        color = besogo.RED; // Natural variant marks are red
+                        color = besogo.DBLUE; // Natural variant marks are red
                     }
                     if (typeof mark === 'number') { // Markup is a basic shape
                         switch(mark) {
@@ -394,7 +394,7 @@ besogo.makeBoardDisplay = function(container, editor) {
             i = lastMove.x;
             j = lastMove.y;
             if (!markupLayer[ fromXY(i, j) ]) { // Last move not marked
-                color = checkVariants(variants, current, i, j) ? besogo.PURP : besogo.BLUE;
+                color = checkVariants(variants, current, i, j) ? besogo.PURP : besogo.MRED;
                 element = besogo.svgPlus(svgPos(i), svgPos(j), color);
                 group.appendChild(element);
                 markupLayer[ fromXY(i, j) ] = element;
@@ -456,7 +456,7 @@ besogo.makeBoardDisplay = function(container, editor) {
                     }
                     // Label variants with letters A-Z cyclically
                     label = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
-                    element = besogo.svgLabel(x, y, besogo.LRED, label);
+                    element = besogo.svgLabel(x, y, besogo.BLUE, label);
                     group.appendChild(element);
                     markupLayer[ fromXY(move.x, move.y) ] = element;
                 }
@@ -514,25 +514,25 @@ besogo.makeBoardDisplay = function(container, editor) {
                             break;
                         case 'addB':
                             if (stone === -1) {
-                                element = besogo.svgCross(x, y, besogo.RED);
+                                element = besogo.svgCross(x, y, besogo.DBLUE);
                             } else {
                                 element = besogo.svgEl('g');
                                 element.appendChild(besogo.svgStone(x, y, -1));
-                                element.appendChild(besogo.svgPlus(x, y, besogo.RED));
+                                element.appendChild(besogo.svgPlus(x, y, besogo.DBLUE));
                             }
                             break;
                         case 'addW':
                             if (stone === 1) {
-                                element = besogo.svgCross(x, y, besogo.RED);
+                                element = besogo.svgCross(x, y, besogo.DBLUE);
                             } else {
                                 element = besogo.svgEl('g');
                                 element.appendChild(besogo.svgStone(x, y, 1));
-                                element.appendChild(besogo.svgPlus(x, y, besogo.RED));
+                                element.appendChild(besogo.svgPlus(x, y, besogo.DBLUE));
                             }
                             break;
                         case 'addE':
                             if (stone) {
-                                element = besogo.svgCross(x, y, besogo.RED);
+                                element = besogo.svgCross(x, y, besogo.DBLUE);
                             }
                             break;
                         case 'clrMark':

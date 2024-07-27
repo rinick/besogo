@@ -19,19 +19,19 @@ besogo.makeToolPanel = function(container, editor) {
     svg = makeButtonSVG('addB', 'Set black\nctrl+click to play'); // Add black button
     element = besogo.svgEl('g');
     element.appendChild(besogo.svgStone(0, 0, -1)); // Black stone
-    // element.appendChild(besogo.svgPlus(0, 0, besogo.RED)); // Red plus
+    // element.appendChild(besogo.svgPlus(0, 0, besogo.DBLUE)); // Red plus
     svg.appendChild(element);
 
     svg = makeButtonSVG('addW', 'Set white\nctrl+click to play'); // Add white button
     element = besogo.svgEl('g');
     element.appendChild(besogo.svgStone(0, 0, 1)); // White stone
-    // element.appendChild(besogo.svgPlus(0, 0, besogo.RED)); // Red plus
+    // element.appendChild(besogo.svgPlus(0, 0, besogo.DBLUE)); // Red plus
     svg.appendChild(element);
 
     svg = makeButtonSVG('addE', 'Set empty point'); // Add empty button
     element = besogo.svgEl('g');
     element.appendChild(besogo.svgStone(0, 0)); // Grey stone
-    element.appendChild(besogo.svgCross(0, 0, besogo.RED)); // Red cross
+    element.appendChild(besogo.svgCross(0, 0, besogo.DBLUE)); // Red cross
     svg.appendChild(element);
 
     svg = makeButtonSVG('circle', 'Circle'); // Circle markup button
@@ -52,7 +52,7 @@ besogo.makeToolPanel = function(container, editor) {
     svg = makeButtonSVG('clrMark', 'Clear mark'); // Clear markup button
     element = besogo.svgEl('g');
     element.appendChild(besogo.svgTriangle(0, 0, besogo.GREY));
-    element.appendChild(besogo.svgCross(0, 0, besogo.RED));
+    element.appendChild(besogo.svgCross(0, 0, besogo.DBLUE));
     svg.appendChild(element);
 
     svg = makeButtonSVG('label', 'Label'); // Label markup button

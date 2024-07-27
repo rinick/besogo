@@ -163,7 +163,7 @@ besogo.makeTreePanel = function(container, editor) {
             case 'setup': // Setup node
                 element = besogo.svgEl("g");
                 element.appendChild(besogo.svgStone(svgPos(x), svgPos(y))); // Grey stone
-                element.appendChild(besogo.svgPlus(svgPos(x), svgPos(y), besogo.RED));
+                element.appendChild(besogo.svgPlus(svgPos(x), svgPos(y), besogo.DBLUE));
                 break;
             default: // Empty node
                 element = besogo.svgStone(svgPos(x), svgPos(y)); // Grey stone

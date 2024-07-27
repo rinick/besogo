@@ -3,7 +3,9 @@
 
 // Color palette
 besogo.RED  = '#be0119'; // Darker red (marked variant)
-besogo.LRED = '#ff474c'; // Lighter red (auto-marked variant)
+besogo.MRED = '#ff2030'; // Lighter red (auto-marked variant)
+besogo.LRED = '#ff676c'; // Lighter red (auto-marked variant)
+besogo.DBLUE = '#0035ec'; // Bright blue (last move)
 besogo.BLUE = '#0165fc'; // Bright blue (last move)
 besogo.SKY = '#6CAEFC'; // Bright blue (last move)
 besogo.PURP = '#9a0eea'; // Red + blue (variant + last move)
