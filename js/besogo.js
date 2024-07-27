@@ -203,6 +203,16 @@ besogo.create = function(container, options) {
         resizer(); // Initial div sizing
     }
 
+
+    try {
+        var sgf = besogo.parseSgf(window.localStorage['sgf_save']);
+        besogo.loadSgf(sgf, editor);
+        editor.gotoLast();
+    } catch (error) {
+        alert('SGF parse error at ' + error.at + ':\n' + error.message);
+    }
+
+
     // Sets dimensions with optional height param
     function setDimensions(width, height) {
         if (height && width > height) { // Landscape mode

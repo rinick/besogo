@@ -267,6 +267,7 @@ besogo.makeBoardDisplay = function(container, editor) {
         return function(event) {
             // Call click handler in editor
             editor.click(i, j, event.ctrlKey, event.shiftKey);
+            window.localStorage['sgf_save'] = besogo.composeSgf(editor);
             if(!TOUCH_FLAG) {
                 (handleOver(i, j))(); // Ensures that any updated tool is visible
             }

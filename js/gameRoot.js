@@ -293,7 +293,13 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
 
     // Adds a child to this node
     root.addChild = function(child) {
-        this.children.push(child);
+        if (this.children.length === 1 && this.children[0].children.length === 0) {
+            // This is probably a fix for a previous mis-click. Make it root branch.
+            this.children.unshift(child);
+        } else {
+            this.children.push(child);
+        }
+
     };
 
     // Remove child node from this node, returning false if failed
@@ -313,6 +319,8 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
             this.children[i] = this.children[i - 1];
             this.children[i - 1] = child;
             return true;
+        } else if (i === 0 && this.parent) {
+            return this.parent.promote(this)
         }
         return false;
     };
@@ -324,6 +332,8 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
             this.children[i] = this.children[i + 1];
             this.children[i + 1] = child;
             return true;
+        } else if (i === this.children.length - 1 && this.parent) {
+            return this.parent.demote(this)
         }
         return false;
     };

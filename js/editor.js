@@ -58,6 +58,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
         getVariants: getVariants, // Returns variants of current node
         getCurrent: getCurrent,
         setCurrent: setCurrent,
+        gotoLast: gotoLast,
         cutCurrent: cutCurrent,
         promote: promote,
         demote: demote,
@@ -287,6 +288,15 @@ besogo.makeEditor = function(sizeX, sizeY) {
             // Notify listeners of navigation (with no tree edits)
             notifyListeners({ navChange: true });
         }
+    }
+
+    function gotoLast() {
+        let v = current;
+        while(v.children.length) {
+            v = v.children[0];
+        }
+        current = v;
+        notifyListeners({ navChange: true });
     }
 
     // Removes current branch from the tree
