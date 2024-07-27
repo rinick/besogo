@@ -21,6 +21,8 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
         node.board = parent?.board ? [...parent?.board] : [];
         node.moves = parent?.moves ? [...parent?.moves] : [];
         node.comment = ''; // Comment on this node
+        node.blackCaps = parent?.blackCaps ?? 0;
+        node.whiteCaps = parent?.whiteCaps ?? 0;
     }
     initNode(root, null); // Initialize root node with null parent
 
@@ -238,9 +240,12 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
     };
 
     // Gets the markup at (x, y)
-    root.getMarkup = function(x, y) {
+    root.getMarkup = function(x, y, showMove = true) {
         var p = fromXY(x, y);
-        return this.markup[p] || this.moves[p] || EMPTY;
+        if (showMove) {
+            return this.markup[p] || this.moves[p] || EMPTY;
+        }
+        return this.markup[p] || EMPTY;
     };
 
     // Determines the type of this node

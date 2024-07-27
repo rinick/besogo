@@ -29,7 +29,7 @@ besogo.create = function(container, options) {
     if (options.panels === '') {
         options.panels = [];
     }
-    options.panels = options.panels || 'control+names+comment+tool+tree+file';
+    options.panels = options.panels || 'control+names+tool+tree+file+comment';
     if (typeof options.panels === 'string') {
         options.panels = options.panels.split('+');
     }
@@ -282,7 +282,7 @@ besogo.autoInit = function() {
     for (i = 0; i < targetDivs.length; i++) { // Iterate over target divs
         options = {}; // Clear the options struct
         if (hasClass(targetDivs[i], 'besogo-editor')) {
-            options.panels = ['control', 'names', 'comment', 'tool', 'tree', 'file'];
+            options.panels = ['control', 'names', 'tool', 'tree', 'file', 'comment'];
             options.tool = 'auto';
         } else if (hasClass(targetDivs[i], 'besogo-viewer')) {
             options.panels = ['control', 'names', 'comment'];

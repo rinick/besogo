@@ -82,7 +82,7 @@ besogo.composeSgf = function(editor) {
         props = { CR: [], SQ: [], TR: [], MA: [], SL: [], LB: [] };
         for (i = 1; i <= node.getSize().x; i++) {
             for (j = 1; j <= node.getSize().y; j++) {
-                stone = node.getMarkup(i, j);
+                stone = node.getMarkup(i, j, false);
                 if (stone) { // If markup placed
                     if (typeof stone === 'string') { // String is label mark
                         props.LB.push({ x: i, y: j, label: stone });

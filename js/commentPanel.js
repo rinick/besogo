@@ -5,7 +5,7 @@ besogo.makeCommentPanel = function(container, editor) {
         gameInfoEdit = document.createElement('table'),
         commentBox = document.createElement('div'),
         commentEdit = document.createElement('textarea'),
-        playerInfoOrder = 'PW WR WT PB BR BT'.split(' '),
+        playerInfoOrder = 'PB PW BR WR BT WT'.split(' '),
         infoOrder = 'HA KM RU TM OT GN EV PC RO DT RE ON GC AN US SO CP'.split(' '),
         infoIds = {
             PW: 'White Player',
