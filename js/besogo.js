@@ -207,7 +207,7 @@ besogo.create = function(container, options) {
     try {
         var str = window.localStorage['sgf_save'];
         if (str) {
-            var sgf = besogo.parseSgf();
+            var sgf = besogo.parseSgf(str);
             besogo.loadSgf(sgf, editor);
             editor.gotoLast();
         }
