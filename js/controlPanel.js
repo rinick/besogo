@@ -86,7 +86,7 @@ besogo.makeControlPanel = function(container, editor) {
         );
         leftElements.push(makeNavButton('Previous node', '85,10 85,90 15,50', function() {
             editor.prevNode(1);
-        }));
+        }, 'previous-btn'));
 
         rightElements.push(makeNavButton('Next node', '15,10 15,90 85,50', function() {
             editor.nextNode(1);
@@ -111,7 +111,7 @@ besogo.makeControlPanel = function(container, editor) {
             editor.nextSibling(1);
         }));
 
-        function makeNavButton(tooltip, pointString, action) { // Creates a navigation button
+        function makeNavButton(tooltip, pointString, action, classNames) { // Creates a navigation button
             var button = document.createElement('button'),
                 svg = makeButtonContainer(),
                 element = besogo.svgEl("polygon", {
@@ -125,6 +125,9 @@ besogo.makeControlPanel = function(container, editor) {
             button.appendChild(svg);
             svg.appendChild(element);
             container.appendChild(button);
+            if (classNames) {
+                button.className = classNames;
+            }
 
             return element;
         } // END function makeNavButton

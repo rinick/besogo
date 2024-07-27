@@ -1,7 +1,9 @@
 .besogo-container {
     outline: none;
     display: flex;
-    background: #d0fefe;
+    background: #f0f0f0;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .besogo-container * {
@@ -15,7 +17,12 @@
     background: #d8dcd6;
     border-color: #ffffff #e6e6e6 #e6e6e6 #ffffff;
 }
-
+.besogo-board {
+    overflow: hidden;
+}
+.besogo-control>.previous-btn {
+    width: 90px;
+}
 .besogo-container input {
     font-size: 12pt;
 }
@@ -41,7 +48,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0px 5px;
+    padding: 0 8px;
+    overflow: visible;
 }
 
 .besogo-panels > * {
@@ -99,7 +107,7 @@
     white-space: pre-wrap;
 
 
-    overflow: auto;
+    overflow: visible;
     flex: 1 1 60%;
     width: 100%;
 }
@@ -134,9 +142,24 @@
 }
 
 .besogo-tree {
+    background: white;
     overflow: auto;
     flex: 1 1 40%;
     width: 100%;
+    min-height: 100px;
+}
+.besogo-tree::-webkit-scrollbar, .besogo-container::-webkit-scrollbar  {
+    width: 8px;
+    height: 8px;
+}
+.besogo-tree::-webkit-scrollbar-track, .besogo-container::-webkit-scrollbar-track {
+    background: white;
+    border-radius: 6px;
+}
+
+.besogo-tree::-webkit-scrollbar-thumb, .besogo-container::-webkit-scrollbar-thumb {
+    background: #1b2431;
+    border-radius: 6px;
 }
 
 .besogo-file {

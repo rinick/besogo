@@ -190,12 +190,11 @@ besogo.create = function(container, options) {
                 boardDiv.style.width = (width - panelsWidth) + 'px';
             } else { // Portrait mode
                 container.style['flex-direction'] = 'column';
-                if (panelsDiv) {
-                    panelsHeight = (height - width >= minPanelsHeight) ? (height - width) : minPanelsHeight;
-                }
-                panelsDiv.style.height = panelsHeight + 'px';
+
+                panelsDiv.style.height = 'auto';
                 panelsDiv.style.width = width + 'px';
-                boardDiv.style.height = (height - panelsHeight) + 'px';
+                boardDiv.style.height = width + 'px';
+                boardDiv.style['min-height'] = width + 'px';
                 boardDiv.style.width = width + 'px';
             }
         };
@@ -209,7 +208,7 @@ besogo.create = function(container, options) {
         if (str) {
             var sgf = besogo.parseSgf(str);
             besogo.loadSgf(sgf, editor);
-            editor.gotoLast();
+            editor.nextNode(-1);
         }
     } catch (error) {
         alert('SGF parse error at ' + error.at + ':\n' + error.message);
