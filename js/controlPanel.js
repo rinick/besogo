@@ -176,7 +176,7 @@ besogo.makeControlPanel = function(container, editor) {
         container.appendChild(coordStyleButton);
         svg = makeButtonContainer();
         coordStyleButton.appendChild(svg);
-        svg.appendChild(besogo.svgLabel(50, 50, 'black', '四4'));
+        svg.appendChild(besogo.svgLabel(50, 50, 'black', 'A1'));
     } // END function drawStyleButtons
 
     // Makes an SVG container for the button graphics

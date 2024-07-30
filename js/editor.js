@@ -29,7 +29,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
         gameInfo = {}, // Game info properties
 
         // Order of coordinate systems
-        COORDS = 'none numeric western eastern pierre corner eastcor'.split(' '),
+        COORDS = 'none western eastern'.split(' '), // 'none numeric western eastern pierre corner eastcor'
         coord = 'none', // Selected coordinate system
 
         // Variant style: 0/1/2 - children/siblings/hide
