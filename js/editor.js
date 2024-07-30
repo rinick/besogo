@@ -33,7 +33,8 @@ besogo.makeEditor = function(sizeX, sizeY) {
         coord = 'none', // Selected coordinate system
 
         // Variant style: 0/1/2 - children/siblings/hide
-        variantStyle = 0; // 0-2, 0 is default
+        variantStyle = 0, // 0-2, 0 is default
+        nextColor = -1; // -1: black, 1: white
 
     return {
         addListener: addListener,
@@ -43,6 +44,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
         nextSibling: nextSibling,
         prevBranchPoint: prevBranchPoint,
         toggleCoordStyle: toggleCoordStyle,
+        toggleNextColor: toggleNextColor,
         getCoordStyle: getCoordStyle,
         setCoordStyle: setCoordStyle,
         toggleVariantStyle: toggleVariantStyle,
@@ -70,6 +72,9 @@ besogo.makeEditor = function(sizeX, sizeY) {
         return tool;
     }
 
+    function toggleNextColor() {
+        nextColor = -nextColor;
+    }
     // Sets the active tool, returns false if failed
     function setTool(set) {
         // Toggle label mode if already label tool already selected
@@ -189,6 +194,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
     function loadRoot(load) {
         root = load;
         current = load;
+        nextColor = -1;
         notifyListeners({ treeChange: true, navChange: true, stoneChange: true });
     }
 
@@ -326,7 +332,8 @@ besogo.makeEditor = function(sizeX, sizeY) {
                 break;
             case 'auto':
                 if (!navigate(i, j, shiftKey) && !shiftKey) { // Try to navigate to (i, j)
-                    playMove(i, j, 0, ctrlKey); // Play auto-color move if navigate fails
+                    playMove(i, j, nextColor, ctrlKey); // Play auto-color move if navigate fails
+                    nextColor = -nextColor;
                 }
                 break;
             case 'playB':
@@ -341,6 +348,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
                 } else {
                     placeSetup(i, j, -1); // Set black
                 }
+                nextColor = 1;
                 break;
             case 'addW':
                 if (ctrlKey) {
@@ -348,6 +356,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
                 } else {
                     placeSetup(i, j, 1); // Set white
                 }
+                nextColor = -1;
                 break;
             case 'addE':
                 placeSetup(i, j, 0);

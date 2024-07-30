@@ -118,7 +118,7 @@ besogo.makeToolPanel = function(container, editor) {
         button.appendChild(svg);
         button.onclick = function() {
             if (tool === 'auto' && editor.getTool() === 'auto') {
-                editor.setTool('navOnly');
+                editor.toggleNextColor();
             } else {
                 editor.setTool(tool);
             }
