@@ -4,10 +4,9 @@ besogo.makeControlPanel = function(container, editor) {
         rightElements = [], // SVG elements for next node buttons
         siblingElements = [], // SVG elements for sibling buttons
         variantStyleButton, // Button for changing variant style
-        hideVariantButton, // Button for toggling show/hide variants
         childVariantElement, // SVG element for child style variants
-        siblingVariantElement, // SVG element for sibling style variants
-        hideVariantElement; // SVG element for hiding variants
+        siblingVariantElement,
+        siblingVariantElement2; // SVG element for sibling style variants
 
     drawNavButtons();
     drawStyleButtons();
@@ -44,21 +43,24 @@ besogo.makeControlPanel = function(container, editor) {
         }
 
         function updateStyleButtons(style) { // Updates the variant style buttons
-            if (style % 2) { // Sibling style variants
-                childVariantElement.setAttribute('fill', 'black');
-                siblingVariantElement.setAttribute('fill', besogo.MRED);
-                variantStyleButton.title = 'Variants: child/[sibling]';
-            } else { // Child style variants
-                childVariantElement.setAttribute('fill', besogo.MRED);
-                siblingVariantElement.setAttribute('fill', besogo.DBLUE);
-                variantStyleButton.title = 'Variants: [child]/sibling';
-            }
-            if (style >= 2) { // Hide auto-markup for variants
-                hideVariantElement.setAttribute('visibility', 'visible');
-                hideVariantButton.title = 'Variants: show/[hide]';
-            } else { // Show auto-markup for variants
-                hideVariantElement.setAttribute('visibility', 'hidden');
-                hideVariantButton.title = 'Variants: [show]/hide';
+            switch (style) {
+                case 1:
+                    childVariantElement.setAttribute('fill', 'black');
+                    siblingVariantElement.setAttribute('fill', besogo.MRED);
+                    siblingVariantElement2.setAttribute('fill', besogo.DBLUE);
+                    variantStyleButton.title = 'Variants: hide/child/[sibling]';
+                    break;
+                case 0:
+                    childVariantElement.setAttribute('fill', besogo.MRED);
+                    siblingVariantElement.setAttribute('fill', besogo.DBLUE);
+                    siblingVariantElement2.setAttribute('fill', besogo.DBLUE);
+                    variantStyleButton.title = 'Variants: hide/[child]/sibling';
+                    break;
+                default: // case 2:
+                    childVariantElement.setAttribute('fill', 'black');
+                    siblingVariantElement.setAttribute('fill', 'black');
+                    siblingVariantElement2.setAttribute('fill', 'black');
+                    variantStyleButton.title = 'Variants: [hide]/child/sibling';
             }
         }
 
@@ -104,13 +106,6 @@ besogo.makeControlPanel = function(container, editor) {
             })
         );
 
-        siblingElements.push(makeNavButton('Previous sibling', '10,85 90,85 50,15', function() {
-            editor.nextSibling(-1);
-        }));
-        siblingElements.push(makeNavButton('Next sibling', '10,15 90,15 50,85', function() {
-            editor.nextSibling(1);
-        }));
-
         function makeNavButton(tooltip, pointString, action, classNames) { // Creates a navigation button
             var button = document.createElement('button'),
                 svg = makeButtonContainer(),
@@ -139,7 +134,7 @@ besogo.makeControlPanel = function(container, editor) {
 
         variantStyleButton = document.createElement('button');
         variantStyleButton.onclick = function() {
-            editor.toggleVariantStyle(false); // Toggles child/sibling variants
+            editor.toggleVariantStyle(); // Toggles child/sibling variants
         };
         container.appendChild(variantStyleButton);
         svg = makeButtonContainer();
@@ -164,25 +159,14 @@ besogo.makeControlPanel = function(container, editor) {
             r: 20,
             stroke: 'none'});
         svg.appendChild(siblingVariantElement);
-        element = besogo.svgEl('circle', {
+        siblingVariantElement2 = besogo.svgEl('circle', {
             cx: 75,
             cy: 75,
             r: 20,
             fill: besogo.DBLUE,
             stroke: 'none'
         });
-        svg.appendChild(element);
-
-        hideVariantButton = document.createElement('button');
-        hideVariantButton.onclick = function() {
-            editor.toggleVariantStyle(true); // Toggles show/hide variants
-        };
-        container.appendChild(hideVariantButton);
-        svg = makeButtonContainer();
-        hideVariantButton.appendChild(svg);
-        svg.appendChild(besogo.svgLabel(50, 50, besogo.DBLUE, 'A'));
-        hideVariantElement = besogo.svgCross(50, 50, 'black');
-        svg.appendChild(hideVariantElement);
+        svg.appendChild(siblingVariantElement2);
 
         coordStyleButton = document.createElement('button');
         coordStyleButton.onclick = function() {
