@@ -187,6 +187,7 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
 
         setStone(this, x, y, color); // Place the setup stone
         this.setupStones[ fromXY(x, y) ] = color - prevColor; // Record the necessary change
+        this.color = color;
         return true;
     };
 

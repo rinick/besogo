@@ -283,6 +283,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
     function setCurrent(node) {
         if (current !== node) {
             current = node;
+            nextColor = -node.color;
             // Notify listeners of navigation (with no tree edits)
             notifyListeners({ navChange: true });
         }
