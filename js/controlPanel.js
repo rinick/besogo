@@ -4,6 +4,7 @@ besogo.makeControlPanel = function(container, editor) {
         rightElements = [], // SVG elements for next node buttons
         siblingElements = [], // SVG elements for sibling buttons
         variantStyleButton, // Button for changing variant style
+        numberButton, // Button for number count
         childVariantElement, // SVG element for child style variants
         siblingVariantElement,
         siblingVariantElement2; // SVG element for sibling style variants
@@ -40,6 +41,10 @@ besogo.makeControlPanel = function(container, editor) {
             } else { // No children
                 arraySetColor(rightElements, besogo.GREY);
             }
+        }
+
+        if (msg.numberOfMoves) {
+            numberButton.innerText = msg.numberOfMoves
         }
 
         function updateStyleButtons(style) { // Updates the variant style buttons
@@ -176,7 +181,17 @@ besogo.makeControlPanel = function(container, editor) {
         container.appendChild(coordStyleButton);
         svg = makeButtonContainer();
         coordStyleButton.appendChild(svg);
-        svg.appendChild(besogo.svgLabel(50, 50, 'black', 'A1'));
+        svg.appendChild(besogo.svgLabel(50, 50, 'black', 'D4'));
+
+        numberButton = document.createElement('button');
+        numberButton.className = 'show-number';
+        numberButton.onclick = function() {
+            editor.toggleNumberOfMoves(); // Toggles coordinate style
+        };
+        numberButton.title = 'Show numbers';
+        numberButton.innerText = editor.getNumberOfMoveLabel();
+        container.appendChild(numberButton);
+
     } // END function drawStyleButtons
 
     // Makes an SVG container for the button graphics

@@ -1,3 +1,6 @@
+const numberOfMovesMap = [0, 1, 5, 10, Infinity];
+const numberOfMovesLabel = ['No', '1', '5', '10', 'All'];
+
 besogo.makeEditor = function(sizeX, sizeY) {
     'use strict';
     // Creates an associated game state tree
@@ -32,6 +35,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
         COORDS = 'none western eastern'.split(' '), // 'none numeric western eastern pierre corner eastcor'
         coord = 'none', // Selected coordinate system
 
+        numberOfMoves = Number(window.localStorage.getItem('numberOfMoves') ?? 2),
         // Variant style: 0/1/2 - children/siblings/hide
         variantStyle = 0, // 0-2, 0 is default
         nextColor = -1; // -1: black, 1: white
@@ -44,6 +48,9 @@ besogo.makeEditor = function(sizeX, sizeY) {
         nextSibling: nextSibling,
         prevBranchPoint: prevBranchPoint,
         toggleCoordStyle: toggleCoordStyle,
+        toggleNumberOfMoves: toggleNumberOfMoves,
+        getNumberRange: getNumberRange,
+        getNumberOfMoveLabel: getNumberOfMoveLabel,
         toggleNextColor: toggleNextColor,
         getCoordStyle: getCoordStyle,
         setCoordStyle: setCoordStyle,
@@ -116,6 +123,17 @@ besogo.makeEditor = function(sizeX, sizeY) {
         notifyListeners({ coord: coord });
     }
 
+    function toggleNumberOfMoves() {
+        numberOfMoves = (numberOfMoves + 1) % 5;
+        window.localStorage.setItem('numberOfMoves', numberOfMoves);
+        notifyListeners({ numberOfMoves: numberOfMovesLabel[numberOfMoves] ,markupChange: true});
+    }
+    function getNumberRange() {
+        return numberOfMovesMap[numberOfMoves];
+    }
+    function getNumberOfMoveLabel() {
+        return numberOfMovesLabel[numberOfMoves]
+    }
     // Gets the current coordinate style
     function getCoordStyle() {
         return coord;

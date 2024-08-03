@@ -100,7 +100,7 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
             this.whiteCaps += Math.abs(captures); // Tally captures for white
         }
         this.moveNumber = this.parent.moveNumber + 1; // Increment move number
-        setStone(this, x, y, color, String(this.moveNumber)); // Place the stone
+        setStone(this, x, y, color, this.moveNumber); // Place the stone
         for (i = 0; i < pending.length; i++) { // Remove the captures
             setStone(this, pending[i].x, pending[i].y, EMPTY);
         }
@@ -175,6 +175,7 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
 
     // Places a setup stone, returns true if successful
     root.placeSetup = function(x, y, color) {
+        this.moves = []; // clear moves table
         var prevColor = (this.parent && this.parent.getStone(x, y)) || EMPTY;
 
         if (x < 1 || y < 1 || x > sizeX || y > sizeY) {
@@ -241,12 +242,16 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
     };
 
     // Gets the markup at (x, y)
-    root.getMarkup = function(x, y, showMove = true) {
+    root.getMarkup = function(x, y, showMoveFrom = Infinity) {
         var p = fromXY(x, y);
-        if (showMove) {
-            return this.markup[p] || this.moves[p] || EMPTY;
+        if (this.markup[p]) {
+            return this.markup[p];
         }
-        return this.markup[p] || EMPTY;
+        let moveNump = this.moves[p]
+        if (moveNump && moveNump > showMoveFrom) {
+            return moveNump.toString() || EMPTY;
+        }
+        return EMPTY;
     };
 
     // Determines the type of this node

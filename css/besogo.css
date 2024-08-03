@@ -23,6 +23,9 @@
 .besogo-control>.previous-btn {
     width: 90px;
 }
+.besogo-control>.show-number {
+    border-radius: 50%;
+}
 .besogo-container input {
     font-size: 12pt;
 }

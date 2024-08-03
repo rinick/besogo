@@ -340,7 +340,7 @@ besogo.makeBoardDisplay = function(container, editor) {
 
         for (i = 1; i <= sizeX; i++) {
             for (j = 1; j <= sizeY; j++) {
-                mark = current.getMarkup(i, j);
+                mark = current.getMarkup(i, j, current.moveNumber - editor.getNumberRange());
                 if (mark) {
                     x = svgPos(i);
                     y = svgPos(j);
