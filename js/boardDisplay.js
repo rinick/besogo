@@ -350,9 +350,15 @@ besogo.makeBoardDisplay = function(container, editor) {
             }
             if (isBranch) {
                 while (p) {
+                    // predict the move based on move position
+                    if (p.move && p.move.x === current.move.x && p.move.y === current.move.y
+                        && p.move.color === current.move.color && p.children[0]) {
+                        guessMove = p.children[0].move;
+                        break;
+                    }
+                    // predict the move based on move number
                     if (p.moveNumber === current.moveNumber + 1) {
                         guessMove = p.move;
-                        break;
                     }
                     p = p.children[0];
                 }
