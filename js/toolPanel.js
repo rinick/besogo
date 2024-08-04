@@ -1,6 +1,7 @@
 besogo.makeToolPanel = function(container, editor) {
     'use strict';
     var element, // Scratch for building SVG images
+        yinyang,
         svg, // Scratch for building SVG images
         labelText, // Text area for next label input
         selectors = {}; // Holds selection rects
@@ -8,7 +9,9 @@ besogo.makeToolPanel = function(container, editor) {
     svg = makeButtonSVG('auto', 'Auto-play/navigate\n' +
         'crtl+click to force ko, suicide, overwrite\n' +
         'shift+click to jump to move'); // Auto-play/nav tool button
-    svg.appendChild(makeYinYang(0, 0));
+    yinyang = makeYinYang(0, 0);
+    rotateYinYang();
+    svg.appendChild(yinyang);
 
     // svg = makeButtonSVG('playB', 'Play black'); // Play black button
     // svg.appendChild(besogo.svgStone(0, 0, -1));
@@ -119,6 +122,7 @@ besogo.makeToolPanel = function(container, editor) {
         button.onclick = function() {
             if (tool === 'auto' && editor.getTool() === 'auto') {
                 editor.toggleNextColor();
+                rotateYinYang();
             } else {
                 editor.setTool(tool);
             }
@@ -141,6 +145,7 @@ besogo.makeToolPanel = function(container, editor) {
 
     // Callback for updating tool state and label
     function toolStateUpdate(msg) {
+        console.log(msg);
         var tool;
         if (msg.label) {
             labelText.value = msg.label;
@@ -156,6 +161,16 @@ besogo.makeToolPanel = function(container, editor) {
                 }
             }
         }
+        if (msg.navChange || msg.stoneChange) {
+            rotateYinYang();
+        }
+    }
+    function rotateYinYang() {
+        if (editor.getNextColor() > 0) {
+            yinyang.style.transform = 'rotate(180deg)';
+        } else {
+            yinyang.style.transform = null;
+        }
     }
 
     // Draws a yin yang
@@ -166,23 +181,23 @@ besogo.makeToolPanel = function(container, editor) {
         element.appendChild( besogo.svgEl("path", {
             d: "m" + x + "," + (y - 44) + " a44 44 0 0 1 0,88z",
             stroke: "none",
-            fill: "black"
+            fill: "white"
         }));
 
         // Draw white part of ying yang on left side
         element.appendChild( besogo.svgEl("path", {
             d: "m" + x + "," + (y + 44) + "a44 44 0 0 1 0,-88a22 22 0 0 1 0,44z",
             stroke: "none",
-            fill: "white"
+            fill: "black"
         }));
 
         // Draw round part of black half of ying yang
         element.appendChild( besogo.svgEl("circle", {
             cx: x,
             cy: y + 22,
-            r: 22,
+            r: 21,
             stroke: "none",
-            fill: "black"
+            fill: "white"
         }));
 
         return element;

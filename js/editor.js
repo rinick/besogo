@@ -52,6 +52,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
         getNumberRange: getNumberRange,
         getNumberOfMoveLabel: getNumberOfMoveLabel,
         toggleNextColor: toggleNextColor,
+        getNextColor: getNextColor,
         getCoordStyle: getCoordStyle,
         setCoordStyle: setCoordStyle,
         toggleVariantStyle: toggleVariantStyle,
@@ -78,7 +79,9 @@ besogo.makeEditor = function(sizeX, sizeY) {
     function getTool() {
         return tool;
     }
-
+    function getNextColor() {
+        return nextColor;
+    }
     function toggleNextColor() {
         nextColor = -nextColor;
     }
@@ -230,7 +233,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
             num--;
         }
         // Notify listeners of navigation (with no tree edits)
-        notifyListeners({ navChange: true }, true); // Preserve history
+        notifyCurrentChange(true); // Preserve history
     }
 
     // Navigates backward num nodes (to the root if num === -1)
@@ -244,7 +247,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
             num--;
         }
         // Notify listeners of navigation (with no tree edits)
-        notifyListeners({ navChange: true }, true); // Preserve history
+        notifyCurrentChange(true); // Preserve history
     }
 
     // Cyclically switches through siblings
@@ -271,7 +274,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
 
             current = siblings[i];
             // Notify listeners of navigation (with no tree edits)
-            notifyListeners({ navChange: true });
+            notifyCurrentChange();
         }
     }
 
@@ -289,7 +292,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
 
         if ( current.parent ) {
             current = current.parent;
-            notifyListeners({ navChange: true });
+            notifyCurrentChange();
         } else {
             current = navHistory.pop(current);
             return false;
@@ -301,10 +304,13 @@ besogo.makeEditor = function(sizeX, sizeY) {
     function setCurrent(node) {
         if (current !== node) {
             current = node;
-            nextColor = -node.color;
-            // Notify listeners of navigation (with no tree edits)
-            notifyListeners({ navChange: true });
+            notifyCurrentChange();
         }
+    }
+    // Notify listeners of navigation (with no tree edits)
+    function notifyCurrentChange( keepHistory = false) {
+        nextColor = -current.color;
+        notifyListeners({ navChange: true }, keepHistory);
     }
 
     // Removes current branch from the tree
@@ -351,8 +357,9 @@ besogo.makeEditor = function(sizeX, sizeY) {
                 break;
             case 'auto':
                 if (!navigate(i, j, shiftKey) && !shiftKey) { // Try to navigate to (i, j)
-                    playMove(i, j, nextColor, ctrlKey); // Play auto-color move if navigate fails
+                    var color = nextColor;
                     nextColor = -nextColor;
+                    playMove(i, j, color, ctrlKey); // Play auto-color move if navigate fails
                 }
                 break;
             case 'playB':
@@ -367,7 +374,6 @@ besogo.makeEditor = function(sizeX, sizeY) {
                 } else {
                     placeSetup(i, j, -1); // Set black
                 }
-                nextColor = 1;
                 break;
             case 'addW':
                 if (ctrlKey) {
@@ -375,7 +381,6 @@ besogo.makeEditor = function(sizeX, sizeY) {
                 } else {
                     placeSetup(i, j, 1); // Set white
                 }
-                nextColor = -1;
                 break;
             case 'addE':
                 placeSetup(i, j, 0);
@@ -486,6 +491,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
             }
         }
         // Check if current node can accept setup stones
+        nextColor = -color;
         if (!current.isMutable('setup')) {
             next = current.makeChild(); // Create a new child node
             if (next.placeSetup(i, j, color)) { // Place setup stone in new node
