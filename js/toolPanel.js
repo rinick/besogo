@@ -59,7 +59,7 @@ besogo.makeToolPanel = function(container, editor) {
     svg.appendChild(element);
 
     svg = makeButtonSVG('label', 'Label'); // Label markup button
-    svg.appendChild(besogo.svgLabel(0, 0, 'black', 'A1'));
+    svg.appendChild(besogo.svgLabel(0, 0, 'black', 'Lbl'));
 
     labelText = document.createElement("input"); // Label entry text field
     labelText.type = "text";

@@ -78,7 +78,7 @@ besogo.makeBoardDisplay = function(container, editor) {
         // Redraw stones only if needed
         if (reinit || msg.navChange || msg.stoneChange) {
             redrawStones(current);
-            redrawMarkup(current);
+            redrawMarkup(current, true);
             redrawHover(current);
         } else if (msg.markupChange || msg.treeChange) {
             redrawMarkup(current);
@@ -327,7 +327,7 @@ besogo.makeBoardDisplay = function(container, editor) {
     }
 
     // Redraws the markup
-    function redrawMarkup(current) {
+    function redrawMarkup(current, predict = false) {
         var element, i, j, x, y, // Scratch iteration variables
             group = besogo.svgEl("g"), // Group holding markup layer elements
             lastMove = current.move,
@@ -338,9 +338,29 @@ besogo.makeBoardDisplay = function(container, editor) {
 
         markupLayer = []; // Clear the references to the old layer
 
+        var guessMove;
+        if (predict && current.move && current.children.length === 0) {
+            var p = current;
+            var isBranch = false;
+            while(p.parent && p.move) {
+                if (p.parent.children.indexOf(p) > 0) {
+                    isBranch = true;
+                }
+                p = p.parent;
+            }
+            if (isBranch) {
+                while (p) {
+                    if (p.moveNumber === current.moveNumber + 1) {
+                        guessMove = p.move;
+                        break;
+                    }
+                    p = p.children[0];
+                }
+            }
+        }
         for (i = 1; i <= sizeX; i++) {
             for (j = 1; j <= sizeY; j++) {
-                mark = current.getMarkup(i, j, current.moveNumber - editor.getNumberRange());
+                mark = current.getMarkup(i, j, current.moveNumber - editor.getNumberRange(), guessMove);
                 if (mark) {
                     x = svgPos(i);
                     y = svgPos(j);

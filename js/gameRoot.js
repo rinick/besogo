@@ -225,7 +225,7 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
     };
 
     // Gets the markup at (x, y)
-    root.getMarkup = function(x, y, showMoveFrom = Infinity) {
+    root.getMarkup = function(x, y, showMoveFrom = Infinity, guessMove = null) {
         var p = fromXY(x, y);
         if (this.markup[p]) {
             return this.markup[p];
@@ -233,6 +233,14 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
         let moveNump = this.moves[p]
         if (moveNump && moveNump > showMoveFrom) {
             return moveNump.toString() || EMPTY;
+        }
+        if (guessMove && x === guessMove.x && y === guessMove.y) {
+            if (guessMove.color === -1) {
+                return '◉';
+            } else {
+                return '◎';
+            }
+
         }
         return EMPTY;
     };
