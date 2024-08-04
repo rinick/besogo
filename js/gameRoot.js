@@ -40,10 +40,6 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
             return false; // Move fails if node is immutable
         }
 
-        if (!color) { // Falsy color indicates auto-color
-            color = this.nextMove();
-        }
-
         if (x < 1 || y < 1 || x > sizeX || y > sizeY) {
             this.move = { // Register as pass move if out of bounds
                 x: 0, y: 0, // Log pass as position (0, 0)
@@ -161,18 +157,6 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
         return false; // Otherwise, no liberties found
     }
 
-    // Get next to move
-    root.nextMove = function() {
-        var x, y, count = 0;
-        if (this.lastMove) { // If a move has been played
-            return -this.lastMove; // Then next is opposite of last move
-        }
-        if (this.parent?.lastMove) {
-            return -this.parent.lastMove;
-        }
-        return BLACK;
-    };
-
     // Places a setup stone, returns true if successful
     root.placeSetup = function(x, y, color) {
         this.moves = []; // clear moves table
@@ -188,7 +172,6 @@ besogo.makeGameRoot = function(sizeX, sizeY) {
 
         setStone(this, x, y, color); // Place the setup stone
         this.setupStones[ fromXY(x, y) ] = color - prevColor; // Record the necessary change
-        this.color = color;
         return true;
     };
 

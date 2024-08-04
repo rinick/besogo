@@ -145,7 +145,6 @@ besogo.makeToolPanel = function(container, editor) {
 
     // Callback for updating tool state and label
     function toolStateUpdate(msg) {
-        console.log(msg);
         var tool;
         if (msg.label) {
             labelText.value = msg.label;

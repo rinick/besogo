@@ -495,7 +495,6 @@ besogo.makeBoardDisplay = function(container, editor) {
             }
         } else { // Render hover for other tools by iterating over grid
             var nextMove = editor.getNextColor();
-            console.log(nextMove);
             for (i = 1; i <= sizeX; i++) {
                 for (j = 1; j <= sizeY; j++) {
                     element = null;

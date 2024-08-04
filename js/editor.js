@@ -309,7 +309,11 @@ besogo.makeEditor = function(sizeX, sizeY) {
     }
     // Notify listeners of navigation (with no tree edits)
     function notifyCurrentChange( keepHistory = false) {
-        nextColor = -current.color;
+        if (current.setupStones?.length) {
+            nextColor = -current.setupStones.at(-1);
+        } else if (current.move) {
+            nextColor = -current.move.color;
+        }
         notifyListeners({ navChange: true }, keepHistory);
     }
 
