@@ -58,8 +58,8 @@ besogo.makeToolPanel = function(container, editor) {
     element.appendChild(besogo.svgCross(0, 0, besogo.DBLUE));
     svg.appendChild(element);
 
-    svg = makeButtonSVG('label', 'Label'); // Label markup button
-    svg.appendChild(besogo.svgLabel(0, 0, 'black', 'Lbl'));
+    svg = makeButtonSVG('label', 'Label', 'add-label-btn'); // Label markup button
+    svg.appendChild(besogo.svgLabel(0, 0, 'black', '✏️'));
 
     labelText = document.createElement("input"); // Label entry text field
     labelText.type = "text";
@@ -71,7 +71,7 @@ besogo.makeToolPanel = function(container, editor) {
         evt = evt || window.event;
         evt.stopPropagation(); // Stop keydown propagation when in focus
     });
-    container.appendChild(labelText);
+    container.children[container.children.length-1].appendChild(labelText);
 
     makeButtonText('Pass', 'Pass move', function(){
         var tool = editor.getTool();
@@ -98,7 +98,7 @@ besogo.makeToolPanel = function(container, editor) {
 
 
     // Creates a button holding an SVG image
-    function makeButtonSVG(tool, tooltip) {
+    function makeButtonSVG(tool, tooltip, className) {
         var button = document.createElement('button'),
             svg = besogo.svgEl('svg', { // Icon container
                 width: '100%',
@@ -116,14 +116,17 @@ besogo.makeToolPanel = function(container, editor) {
                 ry: 20, // Thanks, Steve
                 visibility: 'hidden'
             });
+        if (className) {
+            button.className = className;
+        }
 
         container.appendChild(button);
         button.appendChild(svg);
-        button.onclick = function() {
+        button.onclick = function(e) {
             if (tool === 'auto' && editor.getTool() === 'auto') {
                 editor.toggleNextColor();
                 rotateYinYang();
-            } else {
+            } else if (e.target.type !== 'text') {
                 editor.setTool(tool);
             }
         };
