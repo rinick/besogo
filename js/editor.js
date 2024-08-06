@@ -555,7 +555,7 @@ besogo.makeEditor = function(sizeX, sizeY) {
         if (!keepHistory && msg.navChange) {
             navHistory = []; // Clear navigation history
         }
-        if (msg.navChange) {
+        if (msg.navChange || msg.stoneChange) {
             if (current.setupStones?.length) {
                 nextColor = -current.setupStones.at(-1);
             } else if (current.move) {

@@ -4,6 +4,8 @@ besogo.makeFilePanel = function(container, editor) {
         element, // Scratch variable for creating elements
         WARNING = "Everything not saved will be lost";
 
+    container.innerText = 'New Game:'
+
     makeNewBoardButton(9); // New 9x9 board button
     makeNewBoardButton(13); // New 13x13 board button
     makeNewBoardButton(19); // New 19x19 board button

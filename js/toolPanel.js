@@ -6,6 +6,14 @@ besogo.makeToolPanel = function(container, editor) {
         labelText, // Text area for next label input
         selectors = {}; // Holds selection rects
 
+    makeButtonText('Pass', 'Pass move', function(){
+        var tool = editor.getTool();
+        if (tool !== 'navOnly' && tool !== 'auto' && tool !== 'playB' && tool !== 'playW') {
+            editor.setTool('auto'); // Ensures that a move tool is selected
+        }
+        editor.click(0, 0, false); // Clicking off the board signals a pass
+    });
+
     svg = makeButtonSVG('auto', 'Auto-play/navigate\n' +
         'crtl+click to force ko, suicide, overwrite\n' +
         'shift+click to jump to move'); // Auto-play/nav tool button
@@ -73,23 +81,15 @@ besogo.makeToolPanel = function(container, editor) {
     });
     container.children[container.children.length-1].appendChild(labelText);
 
-    makeButtonText('Pass', 'Pass move', function(){
-        var tool = editor.getTool();
-        if (tool !== 'navOnly' && tool !== 'auto' && tool !== 'playB' && tool !== 'playW') {
-            editor.setTool('auto'); // Ensures that a move tool is selected
-        }
-        editor.click(0, 0, false); // Clicking off the board signals a pass
-    });
-
-    makeButtonText('Raise', 'Raise variation', function(){
+    makeButtonText('Raise', 'Raise branch', function(){
         editor.promote();
     });
 
-    makeButtonText('Lower', 'Lower variation', function(){
+    makeButtonText('Lower', 'Lower branch', function(){
         editor.demote();
     });
 
-    makeButtonText('Cut', 'Remove branch', function(){
+    makeButtonText('Delete', 'Delete branch', function(){
         editor.cutCurrent();
     });
 
