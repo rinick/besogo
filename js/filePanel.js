@@ -38,6 +38,25 @@ besogo.makeFilePanel = function(container, editor) {
     };
     container.appendChild(element);
 
+    // Share file button
+    element = document.createElement('input');
+    element.type = 'button';
+    element.value = 'Share';
+    element.title = 'Share SGF';
+    element.onclick = function() {
+        var fileStr = besogo.composeSgf(editor);
+        var file = new File([fileStr], 'share.sgf');
+        console.log(navigator.canShare({
+            title: "sgf file shared from deepmess go editor",
+            files: [file]
+        }))
+        navigator.share({
+            title: "sgf file shared from deepmess go editor",
+            files: [file]
+        });
+    };
+    container.appendChild(element);
+
 
     // Makes a new board button
     function makeNewBoardButton(size) {
