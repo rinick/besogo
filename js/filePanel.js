@@ -45,13 +45,12 @@ besogo.makeFilePanel = function(container, editor) {
     element.title = 'Share SGF';
     element.onclick = function() {
         var fileStr = besogo.composeSgf(editor);
-        var file = new File([fileStr], 'share.sgf');
-        console.log(navigator.canShare({
-            title: "sgf file shared from deepmess go editor",
-            files: [file]
-        }))
+        var file = new File([fileStr], 'share.sgf.txt', {
+            type: "text/plain",
+        });
         navigator.share({
             title: "sgf file shared from deepmess go editor",
+            text: "Due to security reason, file is shared as txt, place rename it back to sgf.",
             files: [file]
         });
     };
